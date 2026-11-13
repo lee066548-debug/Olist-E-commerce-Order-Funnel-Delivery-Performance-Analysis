@@ -2,10 +2,10 @@
 
 **Review-score attribution and delivery-performance analysis on 99,441 Brazilian e-commerce orders (2016–2018).**
 
-[!\[Dashboard preview](images/dashboard.png)](https://public.tableau.com/app/profile/43153393)
+[!\[Dashboard preview](images/dashboard.png)](https://public.tableau.com/views/Olist\_17945512696070/1?:language=zh-CN\&:sid=\&:redirect=auth\&:display\_count=n\&:origin=viz\_share\_link)
 
-> \\\*\\\*Live dashboard:\\\*\\\* https://public.tableau.com/app/profile/43153393
-> \\\*\\\*Full report:\\\*\\\* \\\[report/olist-experience-governance-report.pdf](report/olist-experience-governance-report.pdf)
+> \\\\\\\*\\\\\\\*Live dashboard:\\\\\\\*\\\\\\\* https://public.tableau.com/app/profile/43153393
+> \\\\\\\*\\\\\\\*Full report:\\\\\\\*\\\\\\\* \\\\\\\[report/olist-experience-governance-report.pdf](report/olist-experience-governance-report.pdf)
 
 \---
 
@@ -39,7 +39,7 @@ Marketplace experience teams need to know *where* negative experience originates
 ## Method
 
 1. **Load** — 9 CSVs → MySQL 8.0 via Python (`pandas` + `SQLAlchemy`); date columns cast to `DATETIME` on import.
-2. **Model** — build an order-level wide table `wide\\\_orders` (**99,441 rows × 27 columns**). Items and reviews are aggregated to *one row per order first*, then joined to orders, customers, products, sellers and the category translation table. This avoids the fan-out (row multiplication) that a naive multi-table join causes — the single most common source of wrong "order counts" in this dataset.
+2. **Model** — build an order-level wide table `wide\\\\\\\_orders` (**99,441 rows × 27 columns**). Items and reviews are aggregated to *one row per order first*, then joined to orders, customers, products, sellers and the category translation table. This avoids the fan-out (row multiplication) that a naive multi-table join causes — the single most common source of wrong "order counts" in this dataset.
 3. **Analyze** — SQL for funnel conversion, delay buckets, category ranking, seller quadrants and state-level performance.
 4. **Visualize** — Tableau Public: 5 KPI cards + 6 charts + an insight panel.
 
@@ -64,8 +64,8 @@ Marketplace experience teams need to know *where* negative experience originates
 
 ## Definitions \& caveats
 
-* **Delivered:** `order\\\_status = 'delivered'`.
-* **Bad review:** `review\\\_score ≤ 2`; bad-review rate = bad reviews ÷ orders **with** a review (not all orders — otherwise non-reviewed orders silently deflate the rate).
+* **Delivered:** `order\\\\\\\_status = 'delivered'`.
+* **Bad review:** `review\\\\\\\_score ≤ 2`; bad-review rate = bad reviews ÷ orders **with** a review (not all orders — otherwise non-reviewed orders silently deflate the rate).
 * **Late:** delivered **more than 1 day** after the estimated delivery date. Under a stricter definition (any delay > 0), the rate is 8.1%. Both are defensible; the report states the one used.
 * **Review de-duplication:** \~551 orders carry more than one review record. The pipeline keeps the **highest** score, which can slightly understate complaints; taking the *latest* review would be stricter.
 * **Scope:** single platform, single market. Conclusions should be re-validated before transfer to other markets.
@@ -79,13 +79,13 @@ Marketplace experience teams need to know *where* negative experience originates
 ├── README.md
 ├── .gitignore
 ├── sql/
-│   ├── 01\\\_load\\\_olist\\\_mysql.py          # CSV → MySQL (credentials via env vars)
-│   ├── 02\\\_build\\\_wide\\\_table\\\_mysql.sql   # order-level wide table + indexes
-│   └── 03\\\_analysis\\\_queries\\\_mysql.sql   # 5 core analyses
+│   ├── 01\\\\\\\_load\\\\\\\_olist\\\\\\\_mysql.py          # CSV → MySQL (credentials via env vars)
+│   ├── 02\\\\\\\_build\\\\\\\_wide\\\\\\\_table\\\\\\\_mysql.sql   # order-level wide table + indexes
+│   └── 03\\\\\\\_analysis\\\\\\\_queries\\\\\\\_mysql.sql   # 5 core analyses
 ├── data/
-│   ├── kpi\\\_summary.csv                 # 5 KPI values
-│   ├── monthly\\\_summary.csv             # monthly orders / delivery rate
-│   └── customer\\\_frequency.csv          # one-time / occasional / loyal split
+│   ├── kpi\\\\\\\_summary.csv                 # 5 KPI values
+│   ├── monthly\\\\\\\_summary.csv             # monthly orders / delivery rate
+│   └── customer\\\\\\\_frequency.csv          # one-time / occasional / loyal split
 ├── report/
 │   └── olist-experience-governance-report.pdf
 └── images/
@@ -102,22 +102,22 @@ Raw CSVs are **not** committed (see `.gitignore`); download them from Kaggle.
 # 0) prerequisites
 pip install pandas sqlalchemy pymysql cryptography
 
-# 1) download the 9 CSVs from Kaggle into ./olist\\\_data/
+# 1) download the 9 CSVs from Kaggle into ./olist\\\\\\\_data/
 
 # 2) set credentials (never hard-code them)
-export MYSQL\\\_HOST=127.0.0.1
-export MYSQL\\\_PORT=3306
-export MYSQL\\\_USER=root
-export MYSQL\\\_PASSWORD=your\\\_password
-export MYSQL\\\_DB=olist
+export MYSQL\\\\\\\_HOST=127.0.0.1
+export MYSQL\\\\\\\_PORT=3306
+export MYSQL\\\\\\\_USER=root
+export MYSQL\\\\\\\_PASSWORD=your\\\\\\\_password
+export MYSQL\\\\\\\_DB=olist
 
 # 3) load + build + analyze
-python sql/01\\\_load\\\_olist\\\_mysql.py
-mysql -u "$MYSQL\\\_USER" -p olist < sql/02\\\_build\\\_wide\\\_table\\\_mysql.sql
-mysql -u "$MYSQL\\\_USER" -p olist < sql/03\\\_analysis\\\_queries\\\_mysql.sql
+python sql/01\\\\\\\_load\\\\\\\_olist\\\\\\\_mysql.py
+mysql -u "$MYSQL\\\\\\\_USER" -p olist < sql/02\\\\\\\_build\\\\\\\_wide\\\\\\\_table\\\\\\\_mysql.sql
+mysql -u "$MYSQL\\\\\\\_USER" -p olist < sql/03\\\\\\\_analysis\\\\\\\_queries\\\\\\\_mysql.sql
 ```
 
-On Windows PowerShell use `$env:MYSQL\\\_PASSWORD="..."` instead of `export`.
+On Windows PowerShell use `$env:MYSQL\\\\\\\_PASSWORD="..."` instead of `export`.
 
 \---
 
